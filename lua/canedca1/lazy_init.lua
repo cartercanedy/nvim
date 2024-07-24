@@ -15,5 +15,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = "canedca1.lazy",
-  change_detection = { notify = false }
+  change_detection = { notify = false },
+  concurrency = jit.os:find("Windows") and (3) or nil,
+  checker = {
+    enabled = false,
+  }
 })

@@ -1,5 +1,6 @@
 return {
   "Mofiqul/vscode.nvim",
+  priority = 1000,
   config = function()
     vim.o.background = 'dark'
     local c = require('vscode.colors').get_colors()

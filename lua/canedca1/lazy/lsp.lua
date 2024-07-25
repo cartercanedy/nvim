@@ -3,8 +3,6 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
     "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
@@ -14,6 +12,7 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
   },
+  priority = 500,
   config = function()
     local cmp = require("cmp")
     local cmp_lsp = require("cmp_nvim_lsp")
@@ -23,7 +22,7 @@ return {
     lsp.preset("recommended")
 
     local feedkeys = vim.api.nvim_feedkeys
-    local get_termcodes = vim.api.nvim_replace_termcodes
+    local get_termcodes = vim.api.nvim_replace_termcodes.vim
 
     local cmp_select = { behavior = cmp.SelectBehavior.Replace }
     local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -68,8 +67,10 @@ return {
       })
     })
 
+    lsp.setup_servers({ "tsserver", "rust_analyzer", "clangd", "lua_ls" })
+
     lsp.set_preferences({
-        suggest_lsp_servers = false,
+        suggest_lsp_servers = true,
         sign_icons = {
             error = "e",
             warn = "w",
@@ -77,8 +78,6 @@ return {
             info = "i"
         }
     })
-
-    lsp.setup_servers({ "tsserver", "rust_analyzer", "clangd" })
 
     lsp.on_attach(function(_, bufnr)
       local opts = { buffer = bufnr, remap = false }

@@ -13,7 +13,6 @@ return {
     "hrsh7th/nvim-cmp",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
-    "j-hui/fidget.nvim"
   },
   config = function()
     local cmp = require("cmp")
@@ -60,7 +59,13 @@ return {
     })
 
     lsp.setup({
-      mapping = cmp_mappings
+      mapping = cmp_mappings,
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" }
+      }, {
+        { name = "buffer" }
+      })
     })
 
     lsp.set_preferences({
@@ -90,47 +95,7 @@ return {
       vim.keymap.set({"i", "n"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     end)
 
-    lsp.setup()
-
-    local capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
-
-    require("fidget").setup({})
     require("mason").setup()
-
-    require("mason-lspconfig").setup({
-      ensure_installed = {
-        "lua_ls",
-        "rust_analyzer",
-      },
-      handlers = {
-        function(server_name)
-          require("lspconfig")[server_name].setup { capabilities = capabilities }
-        end,
-        ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                runtime = { version = "Lua 5.1" },
-                diagnostics = {
-                  globals = {
-                    "bit",
-                    "vim",
-                    "it",
-                    "describe",
-                    "before_each",
-                    "after_each"
-                  }
-                }
-              }
-            }
-          }
-        end
-      }
-    })
-
-
 
     vim.diagnostic.config({
       float = {

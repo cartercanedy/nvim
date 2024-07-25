@@ -15,14 +15,13 @@ return {
   priority = 500,
   config = function()
     local cmp = require("cmp")
-    local cmp_lsp = require("cmp_nvim_lsp")
     local lsp = require("lsp-zero")
     local luasnip = require("luasnip")
 
     lsp.preset("recommended")
 
     local feedkeys = vim.api.nvim_feedkeys
-    local get_termcodes = vim.api.nvim_replace_termcodes.vim
+    local get_termcodes = vim.api.nvim_replace_termcodes
 
     local cmp_select = { behavior = cmp.SelectBehavior.Replace }
     local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -93,8 +92,6 @@ return {
       vim.keymap.set("n", "<Space>vrn", function() vim.lsp.buf.rename() end, opts)
       vim.keymap.set({"i", "n"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     end)
-
-    require("mason").setup()
 
     vim.diagnostic.config({
       float = {

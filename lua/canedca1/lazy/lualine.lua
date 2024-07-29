@@ -1,8 +1,5 @@
 return {
   "cartercanedy/lualine.nvim",
-  dependencies = {
-    "arkav/lualine-lsp-progress",
-  },
   opts = {
     options = {
       icons_enabled = true,
@@ -33,8 +30,7 @@ return {
         'filename',
       },
       lualine_c = {
-        { 
-          "lsp_progress",
+        {
           timer = {
             progress_enddelay = 500,
             spinner = 250,

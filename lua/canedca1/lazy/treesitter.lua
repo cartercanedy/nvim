@@ -1,8 +1,16 @@
+local compiler_toolchain
+
+if jit.os == "Windows" then
+  compiler_toolchain = { "zig" }
+else
+  compiler_toolchain = { "gcc" }
+end
+
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   config = function()
-    require("nvim-treesitter.install").compilers = { "zig" }
+    require("nvim-treesitter.install").compilers = compiler_toolchain
 
     require("nvim-treesitter.configs").setup({
       ensure_installed = {

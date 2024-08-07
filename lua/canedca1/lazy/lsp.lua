@@ -12,6 +12,7 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
   },
+  branch = "v3.x",
   priority = 500,
   config = function()
     local cmp = require("cmp")

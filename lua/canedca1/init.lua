@@ -1,6 +1,9 @@
 require("canedca1.remap")
 require("canedca1.set")
-require("canedca1.lazy_init")
+
+if not vim.g.vscode then
+  require("canedca1.lazy_init")
+end
 
 vim.opt.list = true
 vim.opt.listchars = { tab = "▸▸", trail = "·" }

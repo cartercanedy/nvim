@@ -2,9 +2,12 @@ require("canedca1.remap")
 require("canedca1.set")
 require("canedca1.lazy_init")
 
-vim.g.rust_recommended_style = 0
+vim.opt.list = true
+vim.opt.listchars = { tab = "▸▸", trail = "·" }
 
+vim.g.rust_recommended_style = 0
 vim.opt.relativenumber = true
+
 vim.opt.number = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2

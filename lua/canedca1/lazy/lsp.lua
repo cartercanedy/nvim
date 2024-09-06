@@ -67,7 +67,7 @@ return {
       })
     })
 
-    lsp.setup_servers({ "tsserver", "rust_analyzer", "clangd", "lua_ls", "csharp_ls" })
+    lsp.setup_servers({ "ts_ls", "rust_analyzer", "clangd", "lua_ls", "csharp_ls" })
 
     lsp.set_preferences({
         suggest_lsp_servers = true,

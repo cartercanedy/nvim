@@ -5,7 +5,7 @@ return {
     "hrsh7th/cmp-nvim-lsp"
   },
   opts = {
-    ensure_installed = { "tsserver", "rust_analyzer", "clangd", "lua_ls", "csharp_ls" },
+    ensure_installed = { "ts_ls", "rust_analyzer", "clangd", "lua_ls", "csharp_ls" },
     handlers = {
       --- default lsp setup handler
       --- @param server_name string

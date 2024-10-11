@@ -5,10 +5,12 @@ if not vim.g.vscode then
   require("canedca1.lazy_init")
 end
 
+-- disable fastbrowse to close netrw on navigation to a file
+vim.g.netrw_fastbrowse = 0
+
 vim.opt.list = true
 vim.opt.listchars = { tab = "▸▸", trail = "·" }
 
-vim.g.rust_recommended_style = 0
 vim.opt.relativenumber = true
 
 vim.opt.number = true

@@ -15,6 +15,7 @@ keymap_set("n", "<C-k>", ":cnext<Enter>zz", opts)
 keymap_set("n", "<C-j>", ":cprev<Enter>zz", opts)
 keymap_set("n", "<Space>k", ":lnext<Enter>zz", opts)
 keymap_set("n", "<Space>j", ":lprev<Enter>zz", opts)
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -36,3 +37,5 @@ vim.keymap.set("n", "<space>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<space>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<space>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+keymap_set("n", "<c-backspace>", "<c-w>", opts)

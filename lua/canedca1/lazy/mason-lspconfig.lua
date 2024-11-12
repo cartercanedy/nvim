@@ -13,18 +13,6 @@ return {
         require("lspconfig")[server_name].setup({})
       end,
 
-      ["rust_analyzer"] = function()
-        require("lspconfig").rust_analyzer.setup{
-          settings = {
-            completion = {
-              callable = {
-                snippets = nil
-              }
-            }
-          }
-        }
-      end,
-
       --- Lua-language-server attach handler
       ["lua_ls"] = function()
         local capabilities = vim.tbl_deep_extend(

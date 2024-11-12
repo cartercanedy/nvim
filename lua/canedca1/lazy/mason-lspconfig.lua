@@ -10,11 +10,19 @@ return {
       --- default lsp setup handler
       --- @param server_name string
       function(server_name)
-        if server_name == "tsserver" then
-          server_name = "ts_ls"
-        end
-
         require("lspconfig")[server_name].setup({})
+      end,
+
+      ["rust_analyzer"] = function()
+        require("lspconfig").rust_analyzer.setup{
+          settings = {
+            completion = {
+              callable = {
+                snippets = nil
+              }
+            }
+          }
+        }
       end,
 
       --- Lua-language-server attach handler

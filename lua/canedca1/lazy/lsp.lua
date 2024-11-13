@@ -1,13 +1,27 @@
+--- @function trim_word
+--- @param word string
+--- @param max_len integer
+local function trim_word(word, max_len)
+  if word:len() > max_len then
+    return word:sub(0, max_len)
+  else
+    return word
+  end
+end
+
+--- @type LazyPluginBase
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason.nvim",
+    "hrsh7th/nvim-cmp",
+    "L3MON4D3/LuaSnip",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    "hrsh7th/nvim-cmp",
   },
 
   priority = 500,
@@ -17,34 +31,59 @@ return {
     local get_termcodes = vim.api.nvim_replace_termcodes
 
     local cmp = require("cmp")
-    local lspconfig = require("lspconfig")
+    local cmp_types = require("cmp.types")
+    local luasnip = require("luasnip")
 
-    local defaults = lspconfig.util.default_config
-    local cmp_select = { behavior = cmp.SelectBehavior.Replace }
-
-    defaults.capabilities = vim.tbl_deep_extend(
-      "force",
-      defaults.capabilities,
-      require("cmp_nvim_lsp").default_capabilities()
-    )
+    --- @type cmp.SelectOption
+    local cmp_select = {
+      behavior = "select"
+    }
 
     cmp.setup{
+      completion = {
+        completopt = "menu,menuone,noselect"
+      },
+
+      formatting = {
+        expandable_indicator = true,
+        fields = { "abbr", "kind", "menu" },
+        format = function(_, vim_item)
+          vim_item.abbr = trim_word(vim_item.abbr, 25)
+          return vim_item
+        end,
+      },
+
       sources = {
         { name = "nvim_lsp" },
-        { name = "buffer" }
+        { name = "nvim_lsp_signature_help" },
+        { name = "nvim_lua" },
+        { name = "buffer" },
       },
+
       snippet = {
         expand = function(args)
-          vim.snippet.expand(args.body)
+          luasnip.lsp_expand(args.body)
         end
       },
-      mapping = {
+
+      mapping = cmp.mapping.preset.insert{
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
+        ['<C-g>'] = cmp.mapping(
+          function()
+            print(cmp.visible_docs())
+            if cmp.visible_docs() then
+              cmp.close_docs()
+            else
+              cmp.open_docs()
+            end
+          end
+        ),
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
         ['<C-y>'] = cmp.mapping(
           function(_)
-            print("here")
-            cmp.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace })
+            cmp.confirm({ select = false, behavior = cmp_types.cmp.ConfirmBehavior.Replace })
             vim.api.nvim_set_hl(0, "SnippetTabstop", {})
           end,
           { "i", "s" }
@@ -60,7 +99,7 @@ return {
 
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_next_item()
+            cmp.select_next_item(cmp_select)
           else
             fallback()
           end
@@ -68,12 +107,12 @@ return {
 
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item()
+            cmp.select_prev_item(cmp_select)
           else
             fallback()
           end
         end, { "i", "s" }),
-      }
+      },
     }
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -91,6 +130,32 @@ return {
         vim.keymap.set("n", "<Space>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<Space>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set({"i", "n"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+        vim.keymap.set("i", "<C-n>", function()
+          if cmp.visible() then
+            cmp.select_next_item(cmp_select)
+          else
+            cmp.complete()
+          end
+        end)
+
+        vim.keymap.set("i", "<C-p>", function()
+          if cmp.visible() then
+            cmp.mapping.select_prev_item(cmp_select)
+          else
+            cmp.complete()
+          end
+        end)
+
+        vim.keymap.set("i", "<C-g>", function()
+          if cmp.visible() then
+            if cmp.visible_docs() then
+              cmp.open_docs()
+            else
+              cmp.close_docs()
+            end
+          end
+        end)
       end
     })
 
@@ -100,7 +165,7 @@ return {
         focusable = true,
         style = true,
         border = "rounded",
-        source = "always",
+        source = "if_many",
         header = "",
         prefix = "",
       }

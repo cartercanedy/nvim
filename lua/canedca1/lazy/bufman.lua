@@ -16,7 +16,7 @@ return {
     local setkeys = vim.keymap.set
     setkeys(
       "n",
-      "<Space>bv",
+      "<leader>bv",
       function() require("buffer_manager.ui").toggle_quick_menu() end,
       opts
     )

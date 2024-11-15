@@ -1,27 +1,17 @@
---- @function trim_word
---- @param word string
---- @param max_len integer
-local function trim_word(word, max_len)
-  if word:len() > max_len then
-    return word:sub(0, max_len)
-  else
-    return word
-  end
-end
-
 --- @type LazyPluginBase
+--- @diagnostic disable-next-line: missing-fields
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason.nvim",
     "hrsh7th/nvim-cmp",
-    "L3MON4D3/LuaSnip",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
+    "onsails/lspkind.nvim",
   },
 
   priority = 500,
@@ -32,7 +22,7 @@ return {
 
     local cmp = require("cmp")
     local cmp_types = require("cmp.types")
-    local luasnip = require("luasnip")
+    local lspkind = require("lspkind")
 
     --- @type cmp.SelectOption
     local cmp_select = {
@@ -46,11 +36,16 @@ return {
 
       formatting = {
         expandable_indicator = true,
-        fields = { "abbr", "kind", "menu" },
-        format = function(_, vim_item)
-          vim_item.abbr = trim_word(vim_item.abbr, 25)
-          return vim_item
-        end,
+        fields = { "kind", "abbr", "menu" },
+        format = lspkind.cmp_format{
+          mode = 'symbol',
+          maxwidth = {
+            menu = 25,
+            abbr = 25,
+          },
+
+          ellipsis_char = '...',
+        }
       },
 
       sources = {
@@ -58,12 +53,6 @@ return {
         { name = "nvim_lsp_signature_help" },
         { name = "nvim_lua" },
         { name = "buffer" },
-      },
-
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end
       },
 
       mapping = cmp.mapping.preset.insert{
@@ -88,7 +77,7 @@ return {
           end,
           { "i", "s" }
         ),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-leader>"] = cmp.mapping.complete(),
         ["<Enter>"] = cmp.mapping(
           function(_)
             cmp.mapping.abort()
@@ -122,13 +111,13 @@ return {
 
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-        vim.keymap.set("n", "<Space>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-        vim.keymap.set("n", "<Space>vd", function() vim.diagnostic.open_float() end, opts)
+        vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+        vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
         vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set("n", "<C-a>", function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set("n", "<Space>vrr", function() vim.lsp.buf.references() end, opts)
-        vim.keymap.set("n", "<Space>vrn", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+        vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set({"i", "n"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
         vim.keymap.set("i", "<C-n>", function()

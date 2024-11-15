@@ -3,39 +3,41 @@ local opts = {
   silent = true
 }
 
-local keymap_set = vim.keymap.set
+vim.g.mapleader = " "
 
-keymap_set("n", "<Space>fn", ":bnext<Enter>", opts)
-keymap_set("n", "<Space>fp", ":bprev<Enter>", opts)
-keymap_set("n", "<Space>fd", ":bdelete<Enter>", opts)
-keymap_set("n", "<Space>pv", vim.cmd.Ex, opts)
-keymap_set({ "n", "v" }, "<Space>y", [["+y]], opts)
-keymap_set({ "n", "v" }, "<Space>Y", [["+Y]], opts)
-keymap_set("n", "<C-k>", ":cnext<Enter>zz", opts)
-keymap_set("n", "<C-j>", ":cprev<Enter>zz", opts)
-keymap_set("n", "<Space>k", ":lnext<Enter>zz", opts)
-keymap_set("n", "<Space>j", ":lprev<Enter>zz", opts)
+local remap = vim.keymap.set
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+remap("n", "<leader>fn", ":bnext<Enter>", opts)
+remap("n", "<leader>fp", ":bprev<Enter>", opts)
+remap("n", "<leader>fd", ":bdelete<Enter>", opts)
+remap("n", "<leader>pv", vim.cmd.Ex, opts)
+remap({ "n", "v" }, "<leader>y", [["+y]], opts)
+remap({ "n", "v" }, "<leader>Y", [["+Y]], opts)
+remap("n", "<C-k>", ":cnext<Enter>zz", opts)
+remap("n", "<C-j>", ":cprev<Enter>zz", opts)
+remap("n", "<leader>k", ":lnext<Enter>zz", opts)
+remap("n", "<leader>j", ":lprev<Enter>zz", opts)
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+remap("v", "J", ":m '>+1<CR>gv=gv", opts)
+remap("v", "K", ":m '<-2<CR>gv=gv", opts)
 
-vim.keymap.set("x", "<space>p", [["_dP]])
+remap("n", "J", "mzJ`z", opts)
+remap("n", "<C-d>", "<C-d>zz", opts)
+remap("n", "<C-u>", "<C-u>zz", opts)
+remap("n", "n", "nzzzv", opts)
+remap("n", "N", "Nzzzv", opts)
 
-vim.keymap.set({ "n", "v" }, "<space>y", [["+y]])
-vim.keymap.set("n", "<space>Y", [["+Y]])
+remap("x", "<leader>p", [["_dP]], opts)
 
-vim.keymap.set({ "n", "v" }, "<space>d", [["_d]])
+remap({ "n", "v" }, "<leader>y", [["+y]], opts)
+remap("n", "<leader>Y", [["+Y]], opts)
 
-vim.keymap.set("n", "Q", "<C-q>")
-vim.keymap.set("n", "<space>f", vim.lsp.buf.format)
+remap({ "n", "v" }, "<leader>d", [["_d]], opts)
 
-vim.keymap.set("n", "<space>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<space>x", "<cmd>!chmod +x %<CR>", { silent = true })
+remap("n", "Q", "<C-q>", opts)
+remap("n", "<leader>f", vim.lsp.buf.format, opts)
 
-keymap_set("n", "<c-backspace>", "<c-w>", opts)
+remap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+remap("n", "<leader>x", "<cmd>!chmod +x %<CR>", opts)
+
+remap("n", "<c-backspace>", "<c-w>", opts)

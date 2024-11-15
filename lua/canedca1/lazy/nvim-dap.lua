@@ -16,12 +16,12 @@ return {
       numhl = ""
     })
 
-    local map_keys = vim.keymap.set
+    local remap = vim.keymap.set
 
-    map_keys("n", "<space>dp", dap.toggle_breakpoint, opts)
-    map_keys(
+    remap("n", "<leader>dp", dap.toggle_breakpoint, opts)
+    remap(
       "n",
-      "<space>dl",
+      "<leader>dl",
       function()
         dap.set_breakpoint(
           nil,
@@ -31,12 +31,12 @@ return {
       end
     )
 
-    map_keys("n", "<space>dc", dap.continue, opts)
-    map_keys("n", "<space>dso", dap.step_over, opts)
-    map_keys("n", "<space>dsO", dap.step_out, opts)
-    map_keys("n", "<space>dsi", dap.step_into, opts)
-    map_keys("n", "<space>dui", dap.repl.open, opts)
-    map_keys("n", "<C-S-k>", widgets.hover, opts)
+    remap("n", "<leader>dc", dap.continue, opts)
+    remap("n", "<leader>dso", dap.step_over, opts)
+    remap("n", "<leader>dsO", dap.step_out, opts)
+    remap("n", "<leader>dsi", dap.step_into, opts)
+    remap("n", "<leader>dui", dap.repl.open, opts)
+    remap("n", "<C-S-k>", widgets.hover, opts)
 
     dap.adapters.coreclr = {
       type = "executable",

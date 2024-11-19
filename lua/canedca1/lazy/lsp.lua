@@ -77,7 +77,7 @@ return {
           end,
           { "i", "s" }
         ),
-        ["<C-leader>"] = cmp.mapping.complete(),
+        ["<C-space>"] = cmp.mapping.complete(),
         ["<Enter>"] = cmp.mapping(
           function(_)
             cmp.mapping.abort()
@@ -118,32 +118,14 @@ return {
         vim.keymap.set("n", "<C-a>", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set({"i", "n"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set({"i", "n"}, "<C-g>", function() vim.lsp.buf.signature_help() end, opts)
 
         vim.keymap.set("i", "<C-n>", function()
-          if cmp.visible() then
-            cmp.select_next_item(cmp_select)
-          else
-            cmp.complete()
-          end
+          if not cmp.visible() then cmp.complete() end
         end)
 
         vim.keymap.set("i", "<C-p>", function()
-          if cmp.visible() then
-            cmp.mapping.select_prev_item(cmp_select)
-          else
-            cmp.complete()
-          end
-        end)
-
-        vim.keymap.set("i", "<C-g>", function()
-          if cmp.visible() then
-            if cmp.visible_docs() then
-              cmp.open_docs()
-            else
-              cmp.close_docs()
-            end
-          end
+          if not cmp.visible() then cmp.complete() end
         end)
       end
     })

@@ -3,7 +3,6 @@ local opts = {
   silent = true
 }
 
-
 vim.g.mapleader = " "
 
 local remap = vim.keymap.set
@@ -41,9 +40,3 @@ remap("n", "<leader>f", vim.lsp.buf.format, opts)
 remap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
 remap("n", "<leader>x", "<cmd>!chmod +x %<CR>", opts)
 
-remap("n", "<c-backspace>", "<c-w>", opts)
-
-remap("i", "<c-h>", "<left>", opts)
-remap("i", "<c-j>", "<down>", opts)
-remap("i", "<c-k>", "<up>", opts)
-remap("i", "<c-l>", "<right>", opts)

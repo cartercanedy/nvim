@@ -12,6 +12,7 @@ return {
   config = function()
     require("nvim-treesitter.install").compilers = compiler_toolchain
 
+    --- @diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       ensure_installed = {
         "vimdoc",

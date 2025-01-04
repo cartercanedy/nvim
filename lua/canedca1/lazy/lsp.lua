@@ -52,7 +52,6 @@ return {
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
         { name = "nvim_lua" },
-        { name = "buffer" },
       },
 
       mapping = cmp.mapping.preset.insert{
@@ -78,14 +77,6 @@ return {
           { "i", "s" }
         ),
         ["<C-space>"] = cmp.mapping.complete(),
-        ["<Enter>"] = cmp.mapping(
-          function(_)
-            cmp.mapping.abort()
-            local codes = get_termcodes("<CR>", true, true, true)
-            feedkeys(codes, "n", true)
-          end
-        ),
-
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item(cmp_select)

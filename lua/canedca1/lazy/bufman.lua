@@ -13,6 +13,11 @@ return {
   },
 
   config = function()
+    require("buffer_manager").setup({
+      width = 0.5,
+      height = 0.375
+    })
+
     local setkeys = vim.keymap.set
     setkeys(
       "n",

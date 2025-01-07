@@ -1,4 +1,5 @@
 {
+  "diagnostics.libraryFiles": "",
   "runtime.version": "LuaJIT",
   "runtime.path": [
     "lua/?.lua",
@@ -6,10 +7,11 @@
     "?/init.lua",
   ],
   "diagnostics.globals": ["vim"],
-  "workspace.checkThirdParty": true,
+  "workspace.checkThirdParty": false,
   "workspace.library": [
     "$VIMRUNTIME",
     "$HOME/.local/share/nvim/lazy",
-        "${3rd}/luassert/library"
+    "${3rd}/luassert/library",
+    "$HOME/AppData/Local/nvim-data/lazy",
   ]
 }

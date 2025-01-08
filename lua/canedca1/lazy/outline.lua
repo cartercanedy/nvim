@@ -1,7 +1,5 @@
 return {
   "hedyhli/outline.nvim",
-  lazy = true,
-  cmd = { "Outline", "OutlineOpen" },
   config = function()
     vim.keymap.set(
       "n",

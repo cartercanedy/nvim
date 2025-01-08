@@ -17,9 +17,6 @@ return {
   priority = 500,
 
   config = function()
-    local feedkeys = vim.api.nvim_feedkeys
-    local get_termcodes = vim.api.nvim_replace_termcodes
-
     local cmp = require("cmp")
     local cmp_types = require("cmp.types")
     local lspkind = require("lspkind")

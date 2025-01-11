@@ -7,7 +7,6 @@ local colors = {
 
 return {
   "Mofiqul/vscode.nvim",
-  commit = "18097b7",
   priority = 1000,
 
   init = function()

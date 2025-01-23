@@ -101,12 +101,20 @@ return {
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
         vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
         vim.keymap.set("n", "<C-a>", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set({"i", "n"}, "<C-g>", function() vim.lsp.buf.signature_help() end, opts)
+
+        -- for some reason, using the new jump api doesn't work on windows
+        -- so I need to use the goto_next/prev until it gets sorted out
+        if jit.os:find("Windows") then
+          vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = true }) end, opts)
+          vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = true }) end, opts)
+        else
+          vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+          vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count =  1, float = true }) end, opts)
+        end
 
         vim.keymap.set("i", "<C-n>", function()
           if not cmp.visible() then cmp.complete() end

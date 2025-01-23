@@ -8,6 +8,10 @@ end
 -- disable fastbrowse to close netrw on navigation to a file
 vim.g.netrw_fastbrowse = 0
 
+if jit.os:find("Windows") ~= nil then
+  vim.keymap.set("n", "K", "")
+end
+
 vim.opt.list = true
 vim.opt.listchars = { tab = "▸▸", trail = "·" }
 

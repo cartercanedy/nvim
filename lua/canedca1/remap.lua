@@ -40,3 +40,7 @@ remap("n", "<leader>f", vim.lsp.buf.format, opts)
 remap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
 remap("n", "<leader>x", "<cmd>!chmod +x %<CR>", opts)
 
+if vim.g.neovide then
+  remap({ "i", "c" }, "<C-BS>", "<C-w>", { noremap = true })
+end
+

@@ -7,9 +7,28 @@ vim.g.mapleader = " "
 
 local remap = vim.keymap.set
 
-remap("n", "<leader>fn", ":bnext<Enter>", opts)
-remap("n", "<leader>fp", ":bprev<Enter>", opts)
-remap("n", "<leader>fd", ":bdelete<Enter>", opts)
+if not vim.g.vscode then
+  remap("n", "<leader>fn", ":bnext<Enter>", opts)
+  remap("n", "<leader>fp", ":bprev<Enter>", opts)
+  remap("n", "<leader>fd", ":bdelete<Enter>", opts)
+end
+
+if vim.g.vscode then
+  function action(action)
+    return function() require("vscode").action(action) end
+  end
+
+  remap("n", "[d", action("editor.action.marker.prev"), { noremap = true })
+  remap("n", "]d", action("editor.action.marker.next"), { noremap = true })
+  remap("n", "<leader>fd", action("workbench.action.closeActiveEditor"), { noremap = true })
+  remap("n", "<leader>fn", action("workbench.action.nextEditor"), { noremap = true })
+  remap("n", "<leader>fp", action("workbench.action.previousEditor"), { noremap = true })
+  remap("n", "<leader>ps", action("search.action.openEditor"), { noremap = true })
+  remap("n", "<leader>pf", action("workbench.action.quickOpen"), { noremap = true })
+  remap("n", "<leader>vrn", action("editor.action.rename"), { remap = false })
+  remap("n", "<leader>vrr", action("editor.action.findReferences"), { remap = false })
+end
+
 remap("n", "<leader>pv", vim.cmd.Ex, opts)
 remap({ "n", "v" }, "<leader>y", [["+y]], opts)
 remap({ "n", "v" }, "<leader>Y", [["+Y]], opts)

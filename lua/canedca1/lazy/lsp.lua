@@ -14,7 +14,7 @@ return {
     "onsails/lspkind.nvim",
   },
 
-  priority = 500,
+  priority = 1000,
 
   config = function()
     local cmp = require("cmp")
@@ -42,13 +42,14 @@ return {
           },
 
           ellipsis_char = '...',
-        }
+        },
       },
 
       sources = {
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
-        { name = "nvim_lua" },
+        { name = "nvim_lua", max_item_count = 5 },
+        { name = "buffer", max_item_count = 5 }
       },
 
       mapping = cmp.mapping.preset.insert{
@@ -56,7 +57,6 @@ return {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
         ['<C-g>'] = cmp.mapping(
           function()
-            print(cmp.visible_docs())
             if cmp.visible_docs() then
               cmp.close_docs()
             else
@@ -64,32 +64,27 @@ return {
             end
           end
         ),
+
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
         ['<C-y>'] = cmp.mapping(
           function(_)
-            cmp.confirm({ select = false, behavior = cmp_types.cmp.ConfirmBehavior.Replace })
+            cmp.confirm({
+              select = false,
+              behavior = cmp_types.cmp.ConfirmBehavior.Replace
+            })
             vim.api.nvim_set_hl(0, "SnippetTabstop", {})
           end,
           { "i", "s" }
         ),
-        ["<C-space>"] = cmp.mapping.complete(),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item(cmp_select)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
 
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item(cmp_select)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
+        ["<C-space>"] = cmp.mapping(function() cmp.complete() end, { "i", "s" })
       },
+
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered()
+      }
     }
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -106,14 +101,8 @@ return {
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set({"i", "n"}, "<C-g>", function() vim.lsp.buf.signature_help() end, opts)
 
-        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({ float = true }) end, opts)
-        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next({ float = true }) end, opts)
-
-        -- for some reason, the new jump api isn't working,
-        -- but the old api is going to be deprecated, so I'm keeping this around
-        --
-        -- vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-        -- vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count =  1, float = true }) end, opts)
+        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ float = true, count = -1 }) end, opts)
+        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ float = true, count = 1 }) end, opts)
 
         vim.keymap.set("i", "<C-n>", function()
           if not cmp.visible() then cmp.complete() end
@@ -125,7 +114,6 @@ return {
       end
     })
 
-
     vim.diagnostic.config({
       float = {
         focusable = true,
@@ -136,5 +124,9 @@ return {
         prefix = "",
       }
     })
+
+    --   -- Customization for Pmenu
+    vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#414550", fg = "NONE" })
+    vim.api.nvim_set_hl(0, "Pmenu", { fg = "#E5E5E5", bg = "#222222" })
   end
 }

@@ -19,9 +19,9 @@ return {
       },
 
       refresh = {
-        statusline = 100,
-        tabline = 100,
-        winbar = 100,
+        statusline = 50,
+        tabline = 50,
+        winbar = 50,
       },
 
       icons_enabled = true,

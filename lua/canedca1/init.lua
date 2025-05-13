@@ -54,17 +54,6 @@ autocmd("CmdlineLeave", {
   callback = function() vim.opt.hlsearch = false end
 })
 
-autocmd("FileType", {
-    callback = function()
-        local bufnr = vim.fn.bufnr('%')
-        vim.keymap.set("n", "<Enter>", function()
-            vim.api.nvim_command([[execute "normal! \<cr>"]])
-            vim.api.nvim_command(bufnr .. 'bd')
-        end, { buffer = bufnr })
-    end,
-    pattern = "qf",
-})
-
 for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
     local default_diagnostic_handler = vim.lsp.handlers[method]
     vim.lsp.handlers[method] = function(err, result, context)

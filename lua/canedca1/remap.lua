@@ -64,13 +64,15 @@ remap( "n", "<leader>l", function()
   ---@type string
   local keys
   if filetype == "python" then
-    keys = "yiwoprint( <Esc>pa )"
+    keys = "yiWoprint( <Esc>pa )"
   elseif filetype == "rust" then
-    keys = "yiwopritnln!(<Esc>pa);"
+    keys = "yiWopritnln!(<Esc>pa);"
   elseif filetype == "csharp" then
-    keys = [[yiwoConsole.WriteLine(@"{<Esc>pa}");]]
+    keys = [[yiWoConsole.WriteLine(@"{<Esc>pa}");]]
   elseif filetype == "javascript" then
-    keys = [[yiwoconsole.log(<Esc>pa);]]
+    keys = [[yiWoconsole.log(<Esc>pa);]]
+  elseif filetype == "lua" then
+    keys = "yiWoprint(<Esc>pa)"
   else
     keys = ""
   end

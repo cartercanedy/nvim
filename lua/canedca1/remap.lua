@@ -59,6 +59,27 @@ remap("n", "<leader>f", vim.lsp.buf.format, opts)
 remap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
 remap("n", "<leader>x", "<cmd>!chmod +x %<CR>", opts)
 
+remap( "n", "<leader>l", function()
+  local filetype = vim.bo.filetype
+  ---@type string
+  local keys
+  if filetype == "python" then
+    keys = "yiwoprint( <Esc>pa )"
+  elseif filetype == "rust" then
+    keys = "yiwopritnln!(<Esc>pa);"
+  elseif filetype == "csharp" then
+    keys = [[yiwoConsole.WriteLine(@"{<Esc>pa}");]]
+  elseif filetype == "javascript" then
+    keys = [[yiwoconsole.log(<Esc>pa);]]
+  else
+    keys = ""
+  end
+
+  keys = vim.api.nvim_replace_termcodes("<Esc>" .. keys .. "<Esc>", true, false, true)
+
+  vim.api.nvim_feedkeys(keys , "n" , false)
+end)
+
 if vim.g.neovide then
   remap({ "i", "c" }, "<C-BS>", "<C-w>", { noremap = true })
 end

@@ -32,13 +32,7 @@ return {
 
         require("lspconfig").rust_analyzer.setup({
           capabilities = capabilities,
-          settings = {
-            ["rust-analyzer"] = {
-              completion = {
-                limit = -1,
-              }
-            }
-          }
+          settings = { ["rust-analyzer"] = { } }
         })
       end,
 

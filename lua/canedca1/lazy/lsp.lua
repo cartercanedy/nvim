@@ -47,9 +47,9 @@ return {
 
       sources = {
         { name = "nvim_lsp" },
-        { name = "nvim_lsp_signature_help" },
-        { name = "nvim_lua", max_item_count = 5 },
-        { name = "buffer", max_item_count = 5 }
+        { name = "nvim_lsp_signature_help", max_item_count = 1 },
+        -- { name = "nvim_lua", max_item_count = 5 },
+        -- { name = "buffer", max_item_count = 5 }
       },
 
       mapping = cmp.mapping.preset.insert{
@@ -82,9 +82,9 @@ return {
       },
 
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered()
-      }
+        completion = cmp.config.window.bordered({ border = "single" }),
+        documentation = cmp.config.window.bordered({ border = "single" })
+      },
     }
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -93,7 +93,7 @@ return {
         local opts = { buffer = event.buf, remap = false }
 
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = "single" }) end, opts)
         vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
         vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
         vim.keymap.set({ "i", "n" }, "<A-.>", function() vim.lsp.buf.code_action() end, opts)
@@ -118,7 +118,7 @@ return {
       float = {
         focusable = true,
         style = true,
-        border = "rounded",
+        border = "single",
         source = "if_many",
         header = "",
         prefix = "",

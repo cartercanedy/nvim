@@ -14,8 +14,8 @@ if not vim.g.vscode then
 end
 
 if vim.g.vscode then
-  local function action(action)
-    return function() require("vscode").action(action) end
+  local function action(actionStr)
+    return function() require("vscode").action(actionStr) end
   end
 
   remap("n", "[d", action("editor.action.marker.prev"), { noremap = true })
@@ -27,6 +27,7 @@ if vim.g.vscode then
   remap("n", "<leader>pf", action("workbench.action.quickOpen"), { noremap = true })
   remap("n", "<leader>vrn", action("editor.action.rename"), { remap = false })
   remap("n", "<leader>vrr", action("editor.action.referenceSearch.trigger"), { remap = false })
+  remap("n", "<S-k>", action("editor.action.showHover"), { remap = false })
 end
 
 remap("n", "<leader>pv", vim.cmd.Ex, opts)

@@ -1,5 +1,5 @@
 return {
-  "cartercanedy/lualine.nvim",
+  "nvim-lualine/lualine.nvim",
 
   opts = {
     options = {

@@ -27,7 +27,6 @@ if vim.g.vscode then
   remap("n", "<leader>pf", action("workbench.action.quickOpen"), { noremap = true })
   remap("n", "<leader>vrn", action("editor.action.rename"), { remap = false })
   remap("n", "<leader>vrr", action("editor.action.referenceSearch.trigger"), { remap = false })
-  remap("n", "<S-k>", action("editor.action.showHover"), { remap = false })
 end
 
 remap("n", "<leader>pv", vim.cmd.Ex, opts)

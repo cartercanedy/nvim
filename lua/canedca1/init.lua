@@ -1,5 +1,6 @@
 require("canedca1.remap")
 require("canedca1.set")
+require("canedca1.surround")
 
 if not vim.g.vscode then
   require("canedca1.lazy_init")
